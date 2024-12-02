@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/MainContent.css'; 
 
 function MainContent({ movies, searchQuery }) {
   const [currentPage, setCurrentPage] = useState(1);
   const moviesPerPage = 10;
 
-  // flter movies basing on the serch qrery
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredMovies.length / moviesPerPage);
 
-
   const pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
 
-  // Clculate the movies to displey on the current page
   const indexOfLastMovie = currentPage * moviesPerPage;
   const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
   const currentMovies = filteredMovies.slice(indexOfFirstMovie, indexOfLastMovie);
-
 
   const prevPageFunction = () => {
     if (currentPage > 1) {
@@ -49,7 +45,7 @@ function MainContent({ movies, searchQuery }) {
             </div>
           ))
         ) : (
-          <p className = "no-movies-found" >
+          <p className="no-movies-found">
             No movies found
           </p>
         )}

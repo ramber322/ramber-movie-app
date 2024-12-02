@@ -1,35 +1,31 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import MainContent from './MainContent';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
-  const movies = [
-    { title: 'Family Guy', image: require('./images/family-guy.jpg') },
-    { title: 'Aladdin', image: require('./images/aladdinIMAGE.jpg') },
-    { title: 'Shrek', image: require('./images/shrekIMAGE.jpg') },
-    { title: 'Arcane', image: require('./images/arcaneIMAGE.jpg') },
-    { title: 'Shrek 2', image: require('./images/shrek2IMAGE.jpg') },
-    { title: 'Spongebob', image: require('./images/spongebobIMAGE.jpg') },
-    { title: 'Shark Tale', image: require('./images/sharktaleIMAGE.jpg') },
-    { title: 'Over the Hedge', image: require('./images/over-the-hedgeIMAGE.jpg') },
-    { title: 'Prince of Egypt ', image: require('./images/prince-of-egyptIMAGE.jpg') },
-    { title: 'How to Train Your Dragon Guy', image: require('./images/httydIMAGE.jpg') },
+  const [movies, setMovies] = useState([]); 
 
-    { title: 'Spirit', image: require('./images/spiritIMAGE.jpg') },
-    { title: 'The Road to El Dorado', image: require('./images/the-road-to-el-doradoIMAGE.jpg') },
-    { title: 'Kung Fu Panda', image: require('./images/kung-fu-pandaIMAGE.jpg') },
-    { title: 'Kung Fu Panda 2', image: require('./images/kung-fu-panda2IMAGE.jpg') },
-    { title: 'Up', image: require('./images/upIMAGE.jpeg') },
-    { title: 'The Emperors New Groove', image: require('./images/the-emperors-new-grooveIMAGE.jpg') },
-    { title: 'Nemo', image: require('./images/nemoIMAGE.jpg') },
-    { title: 'Bolt', image: require('./images/boltIMAGE.jpg') },
-    { title: 'Howls Moving Castle', image: require('./images/howls-moving-castleIMAGE.jpg') },
-    { title: 'Ponyo', image: require('./images/ponyoIMAGE.jpg') },
-   
-  ];
-  
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=7616ad02aeda5b28f676782f7e1bfd08');
+        const data = await response.json();
+
+        const movieData = data.results.map(movie => ({
+          title: movie.title,
+          image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+        }));
+
+        
+        setMovies(movieData);
+      } catch (error) {
+        console.error('Error fetching movie data:', error);
+      }
+    };
+
+    fetchMovies(); 
+  }, []); 
 
   const handleSearch = (query) => {
     setSearchQuery(query);

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/Header.css';  
+import starImage from './images/star-iconIMAGE.png'; 
 
 function Header({ onSearch }) {
   const [inputValue, setInputValue] = useState('');
@@ -15,7 +16,8 @@ function Header({ onSearch }) {
 
   return (
     <header className="header">
-      <h1 className="title" onSubmit={handleFormSubmit}>MOVIES</h1>
+       <img src={starImage} alt="moses" className="star-icon" />
+      <h1 className="title">MOVIES</h1>
       <form className="form" onSubmit={handleFormSubmit}>
         <input
           type="text"
